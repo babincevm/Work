@@ -119,3 +119,6 @@ def fill(info_window, about, about_id):
 def delete_vol_in_event(vol_in_event_data):
     return managers.VIEDelete(vol_in_event_data)
 
+
+def fill_avg_lvl(label, vol_id):
+    label.setText('Средний уровень: ' + volunteers.get_avg_lvl(vol_id)[0]['level_name'])

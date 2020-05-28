@@ -14,10 +14,10 @@ class more_info(QtWidgets.QDialog):
             self.add_buttons(self)
             self.about_id = about_id
             self.about = about
+            if about == 0:
+                self.add_level_avg()
             if about == 2:
                 self.table_for_info.horizontalHeaderItem(1).setText("ФИО")
-
-
 
     def setupUi(self, Form):
         Form.setObjectName("Form")
@@ -53,6 +53,12 @@ class more_info(QtWidgets.QDialog):
         self.count_label.setObjectName("count_label")
         self.verticalLayout_3.addWidget(self.count_label)
         self.count_label.setFont(font)
+        self.avg_level = QtWidgets.QLabel(Form)
+        self.avg_level.setAlignment(QtCore.Qt.AlignCenter)
+        self.avg_level.setObjectName("avg_level")
+        self.verticalLayout_3.addWidget(self.avg_level)
+        self.avg_level.setFont(font)
+        self.avg_level.setVisible(False)
         self.table_for_info = QtWidgets.QTableWidget(Form)
         self.table_for_info.setObjectName("table_for_info")
         self.table_for_info.setColumnCount(2)
@@ -62,7 +68,6 @@ class more_info(QtWidgets.QDialog):
         self.verticalLayout_3.addWidget(self.table_for_info)
         self.verticalLayout_4.addLayout(self.verticalLayout_3)
         self.table_for_info.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -129,4 +134,12 @@ class more_info(QtWidgets.QDialog):
                 QtWidgets.QMessageBox.about(self, "Ошибка", "Ошибка")
         except Exception:
             print(traceback.format_exc())
+
+    def add_level_avg(self):
+        try:
+            info.fill_avg_lvl(self.avg_level, self.about_id)
+            self.avg_level.setVisible(True)
+        except TypeError:
+            pass
+
 

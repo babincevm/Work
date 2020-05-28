@@ -40,3 +40,7 @@ def get_all_events(vol_id):
 
 def get_counted_events(vol_id):
     return asyncio.run(commonCtrl.make_get_request(base_url + vol_id + '/events/count'))
+
+
+def get_avg_lvl(vol_id):
+    return asyncio.run(commonCtrl.make_get_request(base_url + vol_id + '/levels/avg'))

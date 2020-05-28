@@ -143,3 +143,30 @@ module.exports.getAllNames = (req, res) => {
         volunteer.volunteer_id = employee.emp_id`
     runSQLAndSend(sql, res)
 }
+
+module.exports.avgLevel = (req, res) => {
+    let sql = `SELECT
+        SUM(event.level_id) AS levels_sum,
+        COUNT(event.level_id) AS levels_total
+    FROM
+        volunteer_in_event,
+        event
+    WHERE
+        event.event_id = volunteer_in_event.event_id AND volunteer_in_event.volunteer_id = ${req.params['id']}`
+
+    conn.query(sql, (err, result) => {
+        if (err) {
+            console.log(err)
+            return sendJSONResponse(res, 500)
+        }
+        result = result[0]
+        let sql = `SELECT 
+            level.level_name
+        FROM
+            level
+        WHERE
+            level.level_id = ${Math.floor(result.levels_sum / result.levels_total)}`
+
+        runSQLAndSend(sql, res)
+    })
+}

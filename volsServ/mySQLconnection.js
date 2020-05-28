@@ -9,7 +9,7 @@ const db_options = {
 
 const conn = mysql.createConnection(db_options)
 
-let Connection = conn.connect( err => {
+conn.connect( err => {
     if (err) {
         console.log(err.message)
         return process.exit(1)
