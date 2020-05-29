@@ -2,7 +2,6 @@
 from PyQt5 import QtWidgets
 from views import change_window
 from public.InsertEvent import addEvent as base
-from controllers import events
 
 
 class ChangeEventWindow(base):
@@ -13,6 +12,6 @@ class ChangeEventWindow(base):
 
     def accept(self):
         if super().check_data():
-            if events.update(self.event_id, super().convert()):
+            if change_window.update_event(self.event_id, super().convert()):
                 return QtWidgets.QDialog.accept(self)
             QtWidgets.QMessageBox.about(self, 'Ошибка', 'Ошибка')

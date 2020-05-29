@@ -33,3 +33,21 @@ module.exports.addVolunteerInEvent = (req, res) => {
         "${insert_data.event_id}"`
     this.runSQLDontSend(sql, res)
 }
+
+module.exports.avgLevel = (sql, res) => {
+    conn.query(sql, (err, result) => {
+        if (err) {
+            console.log(err)
+            return this.sendJSONResponse(res, 500)
+        }
+        result = result[0]
+        let sql = `SELECT 
+            level.level_name
+        FROM
+            level
+        WHERE
+            level.level_id = ${Math.round(result.levels_sum / result.levels_total)}`
+
+        this.runSQLAndSend(sql, res)
+    })
+}

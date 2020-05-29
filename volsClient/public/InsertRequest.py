@@ -113,11 +113,9 @@ class InsertRequest(QtWidgets.QDialog):
         flag = True
         self.incorrect_name.setVisible(False)
         self.incorrect_date.setVisible(False)
-
         if len(self.line_name.text()) < 10:
             flag = False
             self.incorrect_name.setVisible(True)
-
         date = self.calendar.selectedDate().toPyDate()
         if date <= datetime.date.today():
             flag = False
@@ -125,15 +123,14 @@ class InsertRequest(QtWidgets.QDialog):
         return flag
 
     def convert(self):
-
         return {
             "request_event_name": self.line_name.text(),
-            "request_event_date": datetime.date.strftime(self.calendar.selectedDate().toPyDate(), '%d/%m/%Y'),
+            "request_event_date": datetime.date.strftime(
+                self.calendar.selectedDate().toPyDate(), '%d/%m/%Y'),
             "request_manager": self.choose_manager.currentData(),
             "request_organization": self.choose_organization.currentData(),
             "request_center": self.choose_center.currentData(),
-            "request_level": self.choose_level.currentData()
-        }
+            "request_level": self.choose_level.currentData() }
 
     def accept(self):
         if self.check_data():

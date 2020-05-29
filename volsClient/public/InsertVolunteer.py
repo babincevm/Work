@@ -203,11 +203,11 @@ class AddVolunteerWindow(QtWidgets.QDialog):
     def convert(self):
         return {"vol_name": self.line_name.text(),
                 "vol_phone": self.line_phone.text(),
-                "vol_bdate": datetime.date.strftime(self.calendar.selectedDate().toPyDate(), '%d/%m/%Y'),
+                "vol_bdate": datetime.date.strftime
+                (self.calendar.selectedDate().toPyDate(), '%d/%m/%Y'),
                 "vol_email": self.line_email.text(),
                 "vol_gender": self.gender(self.male_gender.isChecked()),
-                "vol_center": self.choose_center.currentData(),
-                }
+                "vol_center": self.choose_center.currentData()}
 
     def accept(self):
         if self.check_data():

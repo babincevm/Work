@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
-import datetime
 from PyQt5 import QtWidgets
 from views import change_window
 from public.InsertVolunteer import AddVolunteerWindow as base
-from controllers import volunteers
 
 
 class ChangeVolunteerWindow(base):
@@ -14,7 +12,7 @@ class ChangeVolunteerWindow(base):
 
     def accept(self):
         if super().check_data():
-            if volunteers.update_vol(self.vol_id, super().convert()):
+            if change_window.update_volunteer(self.vol_id, super().convert()):
                 QtWidgets.QDialog.accept(self)
             else:
                 QtWidgets.QMessageBox.about(self, 'Ошибка', 'Ошибка')

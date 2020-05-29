@@ -59,25 +59,23 @@ class AddVolunteerInEvent(QtWidgets.QDialog):
         self.buttonBox.rejected.connect(Form.reject)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
-
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Добавить"))
         self.choose_text.setText(_translate("Form", "Выберите"))
 
     def convert(self):
-        if self.vol_id:
+        if self.vol_id:  # если форма открыта из вкладки волонтера
             return {
                 "volunteer_id": self.vol_id,
                 "event_id": self.choose_item.currentData()
             }
-        return {
-                "volunteer_id": self.choose_item.currentData(),
-                "event_id": self.event_id
-            }
+        return { # если открыта из вкладки мероприятия
+            "volunteer_id": self.choose_item.currentData(),
+            "event_id": self.event_id
+        }
 
     def accept(self):
         if add_window.add_vol_in_event(self.convert()):
             return super().accept()
         QtWidgets.QMessageBox.about(self, 'Ошибка', 'Ошибка')
-

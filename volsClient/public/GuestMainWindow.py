@@ -233,7 +233,7 @@ class GuestMainWindow(QtWidgets.QMainWindow):
         item = self.org_table.horizontalHeaderItem(2)
         item.setText(_translate("GuestMainWindow", "email"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.organizations),
-                                  _translate("GuestMainWindow", "Организаии"))
+                                  _translate("GuestMainWindow", "Организации"))
         #
         # events
         #

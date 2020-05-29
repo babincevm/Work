@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
-import datetime
 from PyQt5 import QtWidgets
 from views import change_window
 from public.InsertCenter import addCenter as base
-from controllers import centers
 
 
 class ChangeCenterWindow(base):
@@ -14,7 +12,7 @@ class ChangeCenterWindow(base):
 
     def accept(self):
         if super().check_data():
-            if centers.update(self.center_id, super().convert()):
+            if change_window.update_center(self.center_id, super().convert()):
                 QtWidgets.QDialog.accept(self)
             else:
                 QtWidgets.QMessageBox.about(self, 'Ошибка', 'Ошибка')

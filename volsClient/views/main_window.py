@@ -46,10 +46,10 @@ def delete_org(org_id):
 
 
 def fill_events(table):
-    all = events.get_all()
-    if all:
+    data = events.get_all()
+    if data:
         rows = 0
-        for event in all:
+        for event in data:
             table.setRowCount(rows + 1)
             table.setItem(rows, 0, QtWidgets.QTableWidgetItem(str(event["event_id"])))
             table.setItem(rows, 1, QtWidgets.QTableWidgetItem(event["event_name"]))

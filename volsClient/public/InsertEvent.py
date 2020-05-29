@@ -99,24 +99,21 @@ class addEvent(QtWidgets.QDialog):
         self.incorrect_name.setVisible(False)
         self.incorrect_date.setVisible(False)
         date = self.calendar.selectedDate()
-
         if not len(self.line_name.text()) > 10:
             self.incorrect_name.setVisible(True)
             flag = False
         if date > datetime.date.today():
             self.incorrect_date.setVisible(True)
             flag = False
-
         return flag
 
     def convert(self):
-
         return {"event_name": self.line_name.text(),
-                "event_date": datetime.date.strftime(self.calendar.selectedDate().toPyDate(), '%d/%m/%Y'),
+                "event_date": datetime.date.strftime(
+                    self.calendar.selectedDate().toPyDate(), '%d/%m/%Y'),
                 "event_level": self.choose_level.currentData(),
                 "event_org": self.choose_organization.currentData(),
-                "event_center": self.choose_center.currentData(),
-                }
+                "event_center": self.choose_center.currentData()}
 
     def accept(self):
         if self.check_data():

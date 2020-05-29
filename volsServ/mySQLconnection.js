@@ -6,9 +6,7 @@ const db_options = {
     'password': process.env.DB_PASSWORD,
     'port': process.env.DB_PORT
 }
-
 const conn = mysql.createConnection(db_options)
-
 conn.connect( err => {
     if (err) {
         console.log(err.message)
@@ -16,5 +14,4 @@ conn.connect( err => {
     }
     console.log('DB connected successfully')
 })
-
 module.exports = {conn}

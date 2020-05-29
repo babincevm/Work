@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from views import add_window
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtWidgets
 
 
 class addCenter(QtWidgets.QDialog):
@@ -94,28 +94,22 @@ class addCenter(QtWidgets.QDialog):
 
     def check_data(self):
         flag = True
-
         self.incorrect_name.setVisible(False)
         self.incorrect_phone.setVisible(False)
         self.incorrect_headname.setVisible(False)
         self.incorrect_adres.setVisible(False)
-
         if not len(self.line_name.text()) > 10:
             self.incorrect_name.setVisible(True)
             flag = False
-
         if not len(self.line_phone.text()) == 14:
             flag = False
             self.incorrect_phone.setVisible(True)
-
         if not len(self.line_headname.text()) > 10:
             self.incorrect_headname.setVisible(True)
             flag = False
-
         if not len(self.line_adres.text()) > 10:
             self.incorrect_adres.setVisible(True)
             flag = False
-
         return flag
 
     def convert(self):

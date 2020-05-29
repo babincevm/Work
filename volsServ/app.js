@@ -14,13 +14,12 @@ app.use((req, res, next) => {
 const port = process.env.PORT || 5000
 const host = process.env.HOST || 'localhost'
 
-app.use('/center', require('./routes/centers'))
 app.use('/volunteer', require('./routes/volunteers'))
 app.use('/organization', require('./routes/organizations'));
 app.use('/event', require('./routes/events'));
+app.use('/center', require('./routes/centers'))
 app.use('/request', require('./routes/requests'))
 app.use('/level', require('./routes/levels'))
-app.use('/request', require('./routes/requests'))
 app.use('/manager', require('./routes/manager'))
 
 // 404 handler

@@ -1,4 +1,4 @@
-const {runSQLAndSend, runSQLDontSend, runDupKeysSQL} = require('./commonController')
+const {runSQLAndSend, runSQLDontSend, avgLevel} = require('./commonController')
 
 module.exports.getAll = (req, res) => {
     let sql = 'SELECT * FROM center'
@@ -162,4 +162,15 @@ module.exports.getEventsTotal = (req, res) => {
     runSQLAndSend(sql, res)
 }
 
+module.exports.avgLevel = (req, res) => {
+    let sql = `SELECT
+        SUM(event.level_id) AS levels_sum,
+        COUNT(event.level_id) AS levels_total
+    FROM
+        event
+    WHERE
+        event.center_id = ${req.params['id']}`
+
+    avgLevel(sql, res)
+}
 

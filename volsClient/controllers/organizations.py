@@ -40,3 +40,7 @@ def delete(org_id):
 
 def get_counted_events(org_id):
     return asyncio.run(commonCtrl.make_get_request(base_url + org_id + '/events/counted'))
+
+
+def get_avg_lvl(org_id):
+    return asyncio.run(commonCtrl.make_get_request(base_url + org_id + '/levels/avg'))

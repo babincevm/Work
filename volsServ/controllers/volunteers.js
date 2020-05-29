@@ -1,5 +1,5 @@
 const {conn} = require('../mySQLconnection')
-const {sendJSONResponse, runSQLAndSend, runSQLDontSend, addVolunteerInEvent} = require('./commonController')
+const {sendJSONResponse, runSQLAndSend, runSQLDontSend, addVolunteerInEvent, avgLevel} = require('./commonController')
 
 
 module.exports.getAll = (req, res) => {
@@ -20,7 +20,12 @@ module.exports.getAll = (req, res) => {
 }
 
 module.exports.getName = (req, res) => {
-    let sql = `SELECT emp_name FROM employee WHERE emp_id = ${req.params['id']}`
+    let sql = `SELECT 
+        emp_name 
+    FROM 
+        employee 
+    WHERE 
+        emp_id = ${req.params['id']}`
     runSQLAndSend(sql, res)
 }
 
@@ -105,14 +110,22 @@ module.exports.delete = (req, res) => {
 }
 
 module.exports.getEvents = (req, res) => {
-    let sql = `SELECT
-        event.event_id,
-        event.event_name
-    FROM
+    let sql = `SELECT 
+        event.event_id, 
+        event.event_name, 
+        event.event_date, 
+        level.level_name, 
+        organization.org_name, 
+        center.center_name
+    FROM 
         volunteer_in_event,
         event
+    LEFT JOIN level ON event.level_id = level.level_id
+    LEFT JOIN organization ON event.organization_id = organization.organization_id
+    LEFT JOIN center ON event.center_id = center.center_id
     WHERE
-        event.event_id = volunteer_in_event.event_id AND volunteer_in_event.volunteer_id = ${req.params['id']}`
+        event.event_id = volunteer_in_event.event_id 
+        AND volunteer_in_event.volunteer_id = ${req.params['id']}`
 
     runSQLAndSend(sql, res)
 }
@@ -152,21 +165,8 @@ module.exports.avgLevel = (req, res) => {
         volunteer_in_event,
         event
     WHERE
-        event.event_id = volunteer_in_event.event_id AND volunteer_in_event.volunteer_id = ${req.params['id']}`
+        event.event_id = volunteer_in_event.event_id
+        AND volunteer_in_event.volunteer_id = ${req.params['id']}`
 
-    conn.query(sql, (err, result) => {
-        if (err) {
-            console.log(err)
-            return sendJSONResponse(res, 500)
-        }
-        result = result[0]
-        let sql = `SELECT 
-            level.level_name
-        FROM
-            level
-        WHERE
-            level.level_id = ${Math.floor(result.levels_sum / result.levels_total)}`
-
-        runSQLAndSend(sql, res)
-    })
+    avgLevel(sql, res)
 }

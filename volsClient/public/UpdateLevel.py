@@ -2,7 +2,6 @@
 from PyQt5 import QtWidgets
 from views import change_window
 from public.InsertLevel import AddLevelWindow as base
-from controllers import levels
 
 
 class ChangeLevelWindow(base):
@@ -12,7 +11,7 @@ class ChangeLevelWindow(base):
         change_window.fill_level_data(self)
 
     def accept(self):
-        if levels.update(self.level_id, super().convert()):
+        if change_window.update_level(self.level_id, super().convert()):
             return QtWidgets.QDialog.accept(self)
         QtWidgets.QMessageBox.about(self, 'Ошибка', 'Ошибка')
 

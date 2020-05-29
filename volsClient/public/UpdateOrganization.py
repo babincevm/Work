@@ -2,7 +2,6 @@
 from PyQt5 import QtWidgets
 from views import change_window
 from public.InsertOrganization import AddOrgWindow as base
-from controllers import organizations
 
 
 class ChangeOrganizationWindow(base):
@@ -13,7 +12,7 @@ class ChangeOrganizationWindow(base):
 
     def accept(self):
         if super().check_data():
-            if organizations.update(self.org_id, super().convert()):
+            if change_window.update_organization(self.org_id, super().convert()):
                 QtWidgets.QDialog.accept(self)
             else:
                 QtWidgets.QMessageBox.about(self, 'Ошибка', 'Ошибка')

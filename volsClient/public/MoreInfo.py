@@ -10,14 +10,13 @@ class more_info(QtWidgets.QDialog):
         super(more_info, self).__init__(parent)
         self.setupUi(self)
         info.fill(self, about, about_id)
-        if is_manager and (about == 0 or about == 2):
-            self.add_buttons(self)
+        if is_manager:
             self.about_id = about_id
             self.about = about
-            if about == 0:
+            if about == 0 or about == 2:
+                self.add_buttons(self)
+            if about == 0 or about == 1:
                 self.add_level_avg()
-            if about == 2:
-                self.table_for_info.horizontalHeaderItem(1).setText("ФИО")
 
     def setupUi(self, Form):
         Form.setObjectName("Form")
@@ -65,9 +64,18 @@ class more_info(QtWidgets.QDialog):
         self.table_for_info.setRowCount(0)
         self.table_for_info.setHorizontalHeaderItem(0, QtWidgets.QTableWidgetItem())
         self.table_for_info.setHorizontalHeaderItem(1, QtWidgets.QTableWidgetItem())
+        self.table_for_info.horizontalHeaderItem(0).setText("id")
+        self.table_for_info.horizontalHeaderItem(1).setText("ФИО")
         self.verticalLayout_3.addWidget(self.table_for_info)
         self.verticalLayout_4.addLayout(self.verticalLayout_3)
         self.table_for_info.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.table_for_info.horizontalHeader().setCascadingSectionResizes(True)
+        self.table_for_info.horizontalHeader().setStretchLastSection(False)
+        self.table_for_info.verticalHeader().setVisible(False)
+        self.table_for_info.verticalHeader().setCascadingSectionResizes(True)
+        self.table_for_info.verticalHeader().setSortIndicatorShown(True)
+        self.table_for_info.verticalHeader().setStretchLastSection(False)
+        self.table_for_info.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -77,8 +85,6 @@ class more_info(QtWidgets.QDialog):
         Form.setWindowTitle(_translate("Form", "Form"))
         self.name_of_info_requester.setText(_translate("Form", "Name"))
         self.label_for_table.setText(_translate("Form", "Table"))
-        self.table_for_info.horizontalHeaderItem(0).setText(_translate("Form", "id"))
-        self.table_for_info.horizontalHeaderItem(1).setText(_translate("Form", "Название"))
 
     def add_buttons(self, Form):
         self.layout_buttons = QtWidgets.QHBoxLayout()
@@ -101,9 +107,12 @@ class more_info(QtWidgets.QDialog):
             if self.about == 0:
                 if AddVolInEvent.AddVolunteerInEvent(self, vol_id=self.about_id).exec_() == QtWidgets.QDialog.Accepted:
                     info.fill(self, self.about, self.about_id)
+                    self.add_level_avg()
             else:
-                if AddVolInEvent.AddVolunteerInEvent(self, event_id=self.about_id).exec_() == QtWidgets.QDialog.Accepted:
+                if AddVolInEvent.AddVolunteerInEvent(self,
+                                                     event_id=self.about_id).exec_() == QtWidgets.QDialog.Accepted:
                     info.fill(self, self.about, self.about_id)
+                    self.add_level_avg()
         except Exception:
             print(traceback.format_exc())
 
@@ -115,13 +124,13 @@ class more_info(QtWidgets.QDialog):
             return int(table.item(0, 0).text())
 
     def convert(self):
-        if self.about == 0:
+        if self.about == 0:  # если форма открыта из вкладки волонтера
             return {
-                "volunteer_id": int(self.about_id),
+                "volunteer_id": self.about_id,
                 "event_id": self.get_id()
             }
-        return {
-            "event_id": int(self.about_id),
+        return {  # если форма открыта из вкладки мероприятия
+            "event_id": self.about_id,
             "volunteer_id": self.get_id()
         }
 
@@ -129,6 +138,7 @@ class more_info(QtWidgets.QDialog):
         try:
             if info.delete_vol_in_event(self.convert()):
                 self.table_for_info.setRowCount(self.table_for_info.rowCount() - 1)
+                self.add_level_avg()
                 info.fill(self, self.about, self.about_id)
             else:
                 QtWidgets.QMessageBox.about(self, "Ошибка", "Ошибка")
@@ -137,9 +147,7 @@ class more_info(QtWidgets.QDialog):
 
     def add_level_avg(self):
         try:
-            info.fill_avg_lvl(self.avg_level, self.about_id)
+            info.fill_avg_lvl(self.avg_level, self.about, self.about_id)
             self.avg_level.setVisible(True)
         except TypeError:
             pass
-
-

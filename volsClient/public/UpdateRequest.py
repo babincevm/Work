@@ -2,7 +2,6 @@
 from PyQt5 import QtWidgets
 from views import change_window
 from public.InsertRequest import InsertRequest as base
-from controllers import requests
 
 
 class ChangeRequestWindow(base):
@@ -13,7 +12,7 @@ class ChangeRequestWindow(base):
 
     def accept(self):
         if super().check_data():
-            if requests.update(self.request_id, super().convert()):
+            if change_window.update_request(self.request_id, super().convert()):
                 QtWidgets.QDialog.accept(self)
             else:
                 QtWidgets.QMessageBox.about(self, 'Ошибка', 'Ошибка')

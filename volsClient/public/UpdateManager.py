@@ -2,7 +2,6 @@
 from PyQt5 import QtWidgets
 from views import change_window
 from public.InsertManager import AddManagerWindow as base
-from controllers import managers
 
 
 class ChangeManagerWindow(base):
@@ -13,7 +12,7 @@ class ChangeManagerWindow(base):
 
     def accept(self):
         if super().check_data():
-            if managers.update(self.manager_id, super().convert()):
+            if change_window.update_manager(self.manager_id, super().convert()):
                 QtWidgets.QDialog.accept(self)
             else:
                 QtWidgets.QMessageBox.about(self, 'Ошибка', 'Ошибка')

@@ -59,3 +59,31 @@ def fill_level_data(update_window):
     update_window.line_name.setText(level_data['level_name'])
 
 
+def update_center(center_id, update_data):
+    return centers.update(center_id, update_data)
+
+
+def update_event(event_id, update_data):
+    return events.update(event_id, update_data)
+
+
+def update_organization(org_id, update_data):
+    return organizations.update(org_id, update_data)
+
+
+def update_volunteer(vol_id, update_data):
+    return volunteers.update_vol(vol_id, update_data)
+
+
+def update_level(level_id, update_data):
+    return levels.update(level_id, update_data)
+
+
+def update_manager(manager_id, update_data):
+    return managers.update(manager_id, update_data)
+
+
+def update_request(req_id, update_data):
+    return requests.update(req_id, update_data)
+
+

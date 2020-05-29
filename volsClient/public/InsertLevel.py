@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 from views import add_window
-
-
 from PyQt5 import QtCore, QtWidgets
 
 
@@ -56,9 +54,7 @@ class AddLevelWindow(QtWidgets.QDialog):
         self.name_label.setText(_translate("AddLevelWindow", "Название уровня"))
 
     def convert(self):
-        return {
-            "level_name": self.line_name.text()
-        }
+        return {"level_name": self.line_name.text()}
 
     def accept(self):
         if add_window.add_level(self.convert()):

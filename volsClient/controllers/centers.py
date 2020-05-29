@@ -55,3 +55,7 @@ def get_total_organizations(center_id):
 
 def get_total_events(center_id):
     return asyncio.run(commonCtrl.make_get_request(base_url + center_id + '/events/total'))
+
+
+def get_avg_lvl(center_id):
+    return asyncio.run(commonCtrl.make_get_request(base_url + center_id + '/events/level/avg'))
